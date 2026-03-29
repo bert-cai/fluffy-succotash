@@ -13,10 +13,10 @@ export function AgencyFilter({
     <div className="flex flex-wrap gap-2">
       <button
         onClick={() => onSelect(null)}
-        className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+        className={`rounded-full px-3 py-1 text-sm font-medium font-heading transition-colors ${
           selected === null
-            ? "bg-blue-600 text-white"
-            : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+            ? "bg-accent text-light"
+            : "border border-subtle bg-light text-mid hover:bg-subtle/50"
         }`}
       >
         All
@@ -25,10 +25,10 @@ export function AgencyFilter({
         <button
           key={agency}
           onClick={() => onSelect(selected === agency ? null : agency)}
-          className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+          className={`rounded-full px-3 py-1 text-sm font-medium font-heading transition-colors ${
             selected === agency
-              ? "bg-blue-600 text-white"
-              : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+              ? "bg-accent text-light"
+              : "border border-subtle bg-light text-mid hover:bg-subtle/50"
           }`}
         >
           {agency}

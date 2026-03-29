@@ -1,16 +1,16 @@
 export function DeadlineBadge({ daysRemaining }: { daysRemaining: number }) {
   let classes: string;
   if (daysRemaining <= 7) {
-    classes = "bg-red-100 text-red-700";
+    classes = "bg-accent/15 text-accent";
   } else if (daysRemaining <= 21) {
-    classes = "bg-amber-100 text-amber-700";
+    classes = "bg-secondary/15 text-secondary";
   } else {
-    classes = "bg-green-100 text-green-700";
+    classes = "bg-tertiary/15 text-tertiary";
   }
 
   return (
     <span
-      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${classes}`}
+      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium font-heading ${classes}`}
     >
       {daysRemaining} {daysRemaining === 1 ? "day" : "days"} left
     </span>

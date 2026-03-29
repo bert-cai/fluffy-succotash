@@ -17,9 +17,9 @@ export default async function Home() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
-      <header className="mb-6 border-b border-slate-200 pb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Participate</h1>
-        <p className="mt-2 text-sm text-slate-600">
+      <header className="mb-6 border-b border-subtle pb-6">
+        <h1 className="text-2xl font-bold text-dark">Participate</h1>
+        <p className="mt-2 text-sm text-mid">
           Federal regulations open for public comment right now. Your input is
           legally required to be considered.
         </p>
@@ -27,7 +27,7 @@ export default async function Home() {
 
       <RuleBrowser rules={rules} />
 
-      <footer className="mt-10 text-center text-xs text-slate-400">
+      <footer className="mt-10 text-center text-xs text-mid">
         Data from Regulations.gov &middot; Updated every 6 hours
       </footer>
     </div>

@@ -69,13 +69,13 @@ export default function InterviewPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-8">
         <header className="mb-6">
-          <a href="/" className="text-xl font-bold text-slate-900">
+          <a href="/" className="text-xl font-bold text-dark">
             Participate
           </a>
         </header>
         <div className="flex flex-col items-center gap-3 py-20">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-          <p className="text-sm text-slate-600">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+          <p className="text-sm text-mid">
             Building your comment argument...
           </p>
         </div>
@@ -88,7 +88,7 @@ export default function InterviewPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6">
-        <a href="/" className="text-xl font-bold text-slate-900">
+        <a href="/" className="text-xl font-bold text-dark">
           Participate
         </a>
       </header>
@@ -102,11 +102,11 @@ export default function InterviewPage() {
       />
 
       {error && (
-        <div className="mt-4 rounded-lg bg-red-50 p-4">
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="mt-4 rounded-lg bg-accent/10 p-4">
+          <p className="text-sm text-accent">{error}</p>
           <button
             onClick={handleRetry}
-            className="mt-2 text-sm font-medium text-red-600 hover:text-red-700"
+            className="mt-2 text-sm font-medium text-accent hover:text-accent-hover"
           >
             Try again
           </button>

@@ -18,18 +18,18 @@ export function RuleCard({
   return (
     <button
       onClick={onClick}
-      className="w-full cursor-pointer rounded-lg bg-slate-50 p-4 text-left transition-shadow hover:bg-white hover:shadow-md"
+      className="w-full cursor-pointer rounded-lg bg-subtle/50 p-4 text-left transition-shadow hover:bg-light hover:shadow-md"
     >
       <div className="flex items-start justify-between gap-3">
-        <h2 className="line-clamp-2 text-sm font-semibold text-slate-900">
+        <h2 className="line-clamp-2 text-sm font-semibold text-dark">
           {rule.title}
         </h2>
         <DeadlineBadge daysRemaining={rule.days_remaining} />
       </div>
-      <p className="mt-1 text-xs font-medium text-slate-500">
+      <p className="mt-1 text-xs font-medium text-mid">
         {rule.agency_id}
       </p>
-      <p className="mt-2 text-sm text-slate-600">{summaryText}</p>
+      <p className="mt-2 text-sm text-mid">{summaryText}</p>
     </button>
   );
 }

@@ -28,7 +28,7 @@ export function RuleBrowser({ rules }: { rules: Rule[] }) {
 
       <div className="space-y-3">
         {filtered.length === 0 ? (
-          <p className="py-12 text-center text-slate-400">
+          <p className="py-12 text-center text-mid">
             No open comment periods match this filter.
           </p>
         ) : (
