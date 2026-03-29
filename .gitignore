@@ -1,0 +1,33 @@
+# Environment and secrets
+.env
+.env.local
+.env.production
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# SQLite cache
+pipeline_cache.db
+
+# Node
+node_modules/
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
