@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 export function InterviewStep({
   question,
@@ -38,7 +39,9 @@ export function InterviewStep({
         </div>
       </div>
 
-      <p className="mb-6 text-xl font-medium text-dark">{question}</p>
+      <div className="mb-6 text-dark [&>h1]:text-xl [&>h1]:font-semibold [&>h1]:mb-3 [&>p]:text-base [&>p]:mb-3 [&>p:last-child]:mb-0">
+        <ReactMarkdown>{question}</ReactMarkdown>
+      </div>
 
       <textarea
         ref={textareaRef}
