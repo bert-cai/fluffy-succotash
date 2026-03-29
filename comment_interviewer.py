@@ -13,7 +13,7 @@ from synthesis_models import (
 
 logger = logging.getLogger(__name__)
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-haiku-4-5-20251001"
 
 INTERVIEW_SYSTEM_PROMPT = """\
 You are helping a member of the public write a substantive comment on a \

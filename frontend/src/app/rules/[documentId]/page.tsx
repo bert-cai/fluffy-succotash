@@ -30,12 +30,12 @@ export default function RuleDetailPage() {
     let cancelled = false;
     async function load() {
       try {
-        const ruleData = await getRule(documentId);
+        const [ruleData, analysisData] = await Promise.all([
+          getRule(documentId),
+          analyzeRule(documentId),
+        ]);
         if (cancelled) return;
         setRule(ruleData);
-
-        const analysisData = await analyzeRule(documentId);
-        if (cancelled) return;
         setAnalysis(analysisData);
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load");

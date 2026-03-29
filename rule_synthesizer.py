@@ -10,7 +10,7 @@ from synthesis_models import RuleSummary, RIAAssumptions
 
 logger = logging.getLogger(__name__)
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-haiku-4-5-20251001"
 
 
 def _get_client() -> anthropic.Anthropic:
