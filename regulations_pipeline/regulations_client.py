@@ -68,7 +68,6 @@ class RegulationsClient:
         days_remaining_max: int = 60,
         agency_ids: Optional[List[str]] = None,
         page_size: int = 25,
-        page_number: int = 1,
     ) -> List[dict]:
         today = date.today().isoformat()
         params = {
@@ -76,13 +75,21 @@ class RegulationsClient:
             "filter[commentEndDate][ge]": today,
             "sort": "commentEndDate",
             "page[size]": page_size,
-            "page[number]": page_number,
+            "page[number]": 1,
         }
         if agency_ids:
             params["filter[agencyId]"] = ",".join(agency_ids)
 
-        data = self._request("/documents", params=params)
-        return data.get("data", [])
+        all_docs: List[dict] = []
+        while True:
+            data = self._request("/documents", params=params)
+            docs = data.get("data", [])
+            all_docs.extend(docs)
+            if len(docs) < page_size:
+                break
+            params["page[number]"] += 1
+
+        return all_docs
 
     def fetch_rule_detail(self, document_id: str) -> dict:
         data = self._request(
