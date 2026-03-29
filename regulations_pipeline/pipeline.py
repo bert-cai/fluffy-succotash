@@ -84,36 +84,9 @@ class Pipeline:
             if not doc_id:
                 continue
 
-            # Check cache for detail
-            cached = None if force_refresh else self.cache.get_cached_rule(doc_id)
-            if cached:
-                detail = cached
-            else:
-                try:
-                    detail = self.reg_client.fetch_rule_detail(doc_id)
-                    self.cache.cache_rule(doc_id, detail)
-                except Exception:
-                    logger.warning("Failed to fetch detail for %s, using listing data", doc_id)
-                    detail = {"data": doc}
-
-            # Try to get docket info for RIN
-            docket_id = doc.get("attributes", {}).get("docketId", "")
-            docket_data = None
-            if docket_id:
-                try:
-                    docket_data = self.reg_client.fetch_docket_detail(docket_id)
-                except Exception:
-                    logger.debug("Failed to fetch docket %s", docket_id)
-
-            rule_doc = detail.get("data", doc)
-            rule = _build_rule(rule_doc, docket_data)
-            rule.attachments = _parse_attachments(detail)
-
-            # Mark RIA attachments
-            ria = identify_ria_attachment(rule.attachments)
-            if ria:
-                ria.is_ria = True
-
+            # Build rule from listing data only — no detail/docket API calls.
+            # Detail and docket are fetched lazily by enrich_rule() when needed.
+            rule = _build_rule(doc)
             rules.append(rule)
 
         rules.sort(key=lambda r: r.days_remaining)
@@ -127,16 +100,26 @@ class Pipeline:
             rule.ria_text = cached_ria
             return rule
 
-        # If we don't have attachments yet, fetch detail
-        if not rule.attachments:
+        # Fetch full detail (attachments, frDocNum, etc.)
+        detail = None
+        try:
+            detail = self.reg_client.fetch_rule_detail(rule.document_id)
+            self.cache.cache_rule(rule.document_id, detail)
+            rule.attachments = _parse_attachments(detail)
+            ria = identify_ria_attachment(rule.attachments)
+            if ria:
+                ria.is_ria = True
+        except Exception:
+            logger.warning("Failed to fetch detail for %s", rule.document_id)
+
+        # Fetch docket for RIN if we don't have it
+        if not rule.rin and rule.docket_id:
             try:
-                detail = self.reg_client.fetch_rule_detail(rule.document_id)
-                rule.attachments = _parse_attachments(detail)
-                ria = identify_ria_attachment(rule.attachments)
-                if ria:
-                    ria.is_ria = True
+                docket_data = self.reg_client.fetch_docket_detail(rule.docket_id)
+                docket_attrs = docket_data.get("data", {}).get("attributes", {})
+                rule.rin = docket_attrs.get("rin")
             except Exception:
-                logger.warning("Failed to fetch attachments for %s", rule.document_id)
+                logger.debug("Failed to fetch docket %s", rule.docket_id)
 
         # Try to get RIA text from PDF
         ria_attachment = identify_ria_attachment(rule.attachments)
@@ -152,12 +135,8 @@ class Pipeline:
 
         # Try to get full text from Federal Register
         fr_doc_num = None
-        try:
-            detail = self.cache.get_cached_rule(rule.document_id)
-            if detail:
-                fr_doc_num = detail.get("data", {}).get("attributes", {}).get("frDocNum")
-        except Exception:
-            pass
+        if detail:
+            fr_doc_num = detail.get("data", {}).get("attributes", {}).get("frDocNum")
 
         if fr_doc_num:
             try:
