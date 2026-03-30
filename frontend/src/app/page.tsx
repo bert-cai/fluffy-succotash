@@ -86,11 +86,10 @@ export default function LandingPage() {
         </p>
         <p className="text-center font-body text-sm text-mid">
           Problems? Feature suggestions?{' '}
-          href="mailto:albert@albertcai.org"
-          style={{ color: '#0000FF', textDecoration: 'none' }}
-          >
-            let me know
-        </a>
+          <a> 
+            href="mailto:albert@albertcai.org"style={{ color: '#0000FF', textDecoration: 'none' }}
+            let me know 
+          </a>
         </p>
       </footer>
     </div>
