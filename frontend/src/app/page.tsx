@@ -8,9 +8,6 @@ export default function LandingPage() {
         <a href="/" className="font-heading font-semibold text-dark">
           Civly
         </a>
-        <a href="/browse" className="font-body text-secondary">
-          Browse regulations →
-        </a>
       </nav>
 
       {/* Hero */}
@@ -19,9 +16,9 @@ export default function LandingPage() {
           Democratizing the rulemaking process
         </h1>
         <p className="mx-auto mt-6 max-w-2xl font-body text-xl text-mid">
-          Federal agencies are legally required to listen to your feedback. We
-          cut through the bureaucratic sludge. Make your voice heard today,
-          completely free.
+          Federal agencies are legally required to listen to your feedback,
+          but the process is dominanted by powerful corporate lobbyists. We
+          cut through the sludge. Make your voice heard today, completely free.
         </p>
         <a
           href="/browse"
@@ -74,12 +71,10 @@ export default function LandingPage() {
               We do the hard part
             </h2>
             <p className="mt-2 font-body text-sm text-mid">
-              The notice-and-comment process is dominated by big business
-              interests with the resources to fight. We democratize the process
-              by reading the regulatory impact analysis so you don&apos;t have
-              to, identifying gaps in the agency&apos;s reasoning, and helping
-              you articulate exactly where your experience challenges their
-              assumptions.
+              We democratize the rulemaking by reading the regulatory impact analysis
+              so you don't have to. Our AI-powered software helps you to identify how
+              new regulations will impact your small business, then writes a detailed
+              comment outlining your case that the relevant agencies are obligated to answer.
             </p>
           </div>
         </div>
