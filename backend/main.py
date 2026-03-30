@@ -218,8 +218,10 @@ async def list_rules(days_remaining_max: int = 60, agency_ids: Optional[str] = N
 @app.get("/rules/{document_id}", response_model=RuleDetailResponse)
 async def get_rule_detail(document_id: str):
     try:
-        enriched = await asyncio.to_thread(_get_enriched_rule, document_id)
-        return _rule_to_detail_response(enriched)
+        # Return basic listing data immediately — no enrichment API calls.
+        # Enrichment (full_text, ria_text) only happens in /analyze.
+        rule = _find_rule(document_id)
+        return _rule_to_detail_response(rule)
     except HTTPException:
         raise
     except Exception as e:
@@ -342,8 +344,11 @@ async def submit_comment(session_id: str, req: SubmitRequest):
 # ── Startup ─────────────────────────────────────────────────────────────
 @app.on_event("startup")
 async def startup_prewarm():
-    try:
-        rules = await asyncio.to_thread(_get_rules_cached)
-        logger.info("Rules cache pre-warmed: %d rules loaded", len(rules))
-    except Exception as e:
-        logger.error("Failed to pre-warm rules cache: %s", e)
+    """Pre-warm rules cache in background — failures don't block the app."""
+    async def _warm():
+        try:
+            rules = await asyncio.to_thread(_get_rules_cached)
+            logger.info("Rules cache pre-warmed: %d rules loaded", len(rules))
+        except Exception as e:
+            logger.warning("Pre-warm failed (app still functional): %s", e)
+    asyncio.create_task(_warm())

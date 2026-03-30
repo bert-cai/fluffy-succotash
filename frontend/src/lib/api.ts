@@ -22,20 +22,34 @@ export class ApiError extends Error {
 
 async function request<T>(
   path: string,
-  options?: RequestInit,
+  options?: RequestInit & { timeoutMs?: number },
 ): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new ApiError(res.status, body);
+  const timeoutMs = options?.timeoutMs ?? 30_000;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new ApiError(res.status, body);
+    }
+    return res.json() as Promise<T>;
+  } catch (e) {
+    if (e instanceof DOMException && e.name === "AbortError") {
+      throw new ApiError(0, "Request timed out");
+    }
+    throw e;
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json() as Promise<T>;
 }
 
 export function getRules(agencyIds?: string[]): Promise<Rule[]> {
@@ -54,7 +68,7 @@ export function getRule(documentId: string): Promise<RuleDetail> {
 export function analyzeRule(documentId: string): Promise<AnalysisResult> {
   return request<AnalysisResult>(
     `/rules/${encodeURIComponent(documentId)}/analyze`,
-    { method: "POST" },
+    { method: "POST", timeoutMs: 120_000 },
   );
 }
 
@@ -64,6 +78,7 @@ export function startInterview(
   return request<InterviewStartResponse>("/interview/start", {
     method: "POST",
     body: JSON.stringify({ document_id: documentId }),
+    timeoutMs: 120_000,
   });
 }
 
