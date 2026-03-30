@@ -71,8 +71,7 @@ export default function LandingPage() {
               We do the hard part
             </h2>
             <p className="mt-2 font-body text-sm text-mid">
-              We democratize the rulemaking by reading the regulatory impact analysis
-              so you don't have to. Our AI-powered software helps you to identify how
+              Our AI-powered software helps you to identify how
               new regulations will impact your small business, then writes a detailed
               comment outlining your case that the relevant agencies are obligated to answer.
             </p>
