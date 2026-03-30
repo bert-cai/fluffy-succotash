@@ -23,27 +23,28 @@ export default function RuleDetailPage() {
   const [rule, setRule] = useState<RuleDetail | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(true);
+  const [analysisLoading, setAnalysisLoading] = useState(true);
   const [startingInterview, setStartingInterview] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
 
+  // Fetch rule data
   useEffect(() => {
     let cancelled = false;
-    async function load() {
-      try {
-        const [ruleData, analysisData] = await Promise.all([
-          getRule(documentId),
-          analyzeRule(documentId),
-        ]);
-        if (cancelled) return;
-        setRule(ruleData);
-        setAnalysis(analysisData);
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    load();
+    getRule(documentId)
+      .then((data) => { if (!cancelled) setRule(data); })
+      .catch((e) => { if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load rule"); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [documentId]);
+
+  // Fetch analysis independently
+  useEffect(() => {
+    let cancelled = false;
+    analyzeRule(documentId)
+      .then((data) => { if (!cancelled) setAnalysis(data); })
+      .catch((e) => { if (!cancelled) setAnalysisError(e instanceof Error ? e.message : "Analysis failed"); })
+      .finally(() => { if (!cancelled) setAnalysisLoading(false); });
     return () => { cancelled = true; };
   }, [documentId]);
 
@@ -88,49 +89,56 @@ export default function RuleDetailPage() {
         </div>
       )}
 
-      {/* Loading state */}
-      {loading && !error && (
-        <div className="mt-8 flex flex-col items-center gap-3 py-12">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-          <p className="text-sm text-mid">
-            Analyzing this rule and its regulatory impact assessment...
-          </p>
-          <p className="text-xs text-mid">This takes about 10 seconds</p>
-        </div>
-      )}
-
-      {/* Phase B — Rule detail + analysis */}
-      {!loading && analysis && rule && (
+      {/* Rule details — render as soon as rule data is available */}
+      {rule && (
         <div className="mt-6 space-y-6">
-          {/* Block 1 — What's changing */}
-          <div className="rounded-lg bg-subtle/50 p-6">
-            <p className="text-sm text-dark">
-              {analysis.rule_summary.plain_summary}
-            </p>
-            <div className="mt-4">
-              <p className="text-sm font-medium text-dark">
-                Specifically:
+          {/* Block 1 — What's changing (needs analysis) */}
+          {analysisLoading && (
+            <div className="flex flex-col items-center gap-3 rounded-lg bg-subtle/50 p-8">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+              <p className="text-sm text-mid">
+                Analyzing this rule and its regulatory impact assessment...
               </p>
-              <p className="mt-1 text-sm text-dark">
-                {analysis.rule_summary.what_is_changing}
-              </p>
+              <p className="text-xs text-mid">This takes about 10 seconds</p>
             </div>
-            <div className="mt-4">
-              <p className="mb-2 text-sm font-medium text-dark">
-                Who this affects:
+          )}
+
+          {analysisError && !analysis && (
+            <div className="rounded-lg bg-accent/10 p-4 text-sm text-accent">
+              Could not load analysis. You can still start the interview below.
+            </div>
+          )}
+
+          {analysis && (
+            <div className="rounded-lg bg-subtle/50 p-6">
+              <p className="text-sm text-dark">
+                {analysis.rule_summary.plain_summary}
               </p>
-              <div className="flex flex-wrap gap-2">
-                {analysis.rule_summary.affected_populations.map((pop, i) => (
-                  <span
-                    key={i}
-                    className="rounded-full bg-secondary/15 px-3 py-1 text-sm text-secondary"
-                  >
-                    {pop}
-                  </span>
-                ))}
+              <div className="mt-4">
+                <p className="text-sm font-medium text-dark">
+                  Specifically:
+                </p>
+                <p className="mt-1 text-sm text-dark">
+                  {analysis.rule_summary.what_is_changing}
+                </p>
+              </div>
+              <div className="mt-4">
+                <p className="mb-2 text-sm font-medium text-dark">
+                  Who this affects:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {analysis.rule_summary.affected_populations.map((pop, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full bg-secondary/15 px-3 py-1 text-sm text-secondary"
+                    >
+                      {pop}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Block 2 — Comment deadline */}
           <div className="rounded-lg border border-subtle p-6">

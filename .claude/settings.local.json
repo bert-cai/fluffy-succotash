@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source venv/bin/activate)",
+      "Bash(python -m pytest regulations_pipeline/test_pipeline.py -v)",
+      "Bash(pip install:*)",
+      "Bash(python -c \":*)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(python -m pytest test_synthesizer.py -v -s)",
+      "Bash(python -c \"from dotenv import load_dotenv; load_dotenv\\(\\); import os; print\\(os.environ.get\\(''ANTHROPIC_API_KEY'',''NOT SET''\\)[:20]\\)\")",
+      "Bash(pkill -f \"uvicorn backend\")",
+      "Bash(npx create-next-app@latest frontend --typescript --tailwind --eslint --app --src-dir --no-import-alias --use-npm)",
+      "Bash(npm --version)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(find /Users/albetjcai/Projects/frontend/src -type f \\\\\\(-name *.ts -o -name *.tsx -o -name *.js -o -name *.jsx \\\\\\))",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(rm -rf frontend/.git)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:reg-project.vercel.app)"
+    ]
+  }
+}
