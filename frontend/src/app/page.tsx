@@ -90,6 +90,15 @@ export default function LandingPage() {
         <p className="text-center font-body text-sm text-mid">
           Civly &middot; Data from Regulations.gov &middot; Built for the public
         </p>
+        <p className="mt-2 text-center font-body text-sm text-mid">
+          Problems? Feature suggestions?{' '}
+          <a
+            href="mailto:albert@albertcai.org"
+            className="text-secondary underline"
+          >
+            Let me know
+          </a>
+        </p>
       </footer>
     </div>
   );
