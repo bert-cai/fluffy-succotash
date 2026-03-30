@@ -84,6 +84,14 @@ export default function LandingPage() {
         <p className="text-center font-body text-sm text-mid">
           Civly &middot; Data from Regulations.gov &middot; Built for the public
         </p>
+        <p className="text-center font-body text-sm text-mid">
+          Problems? Feature suggestions?{' '}
+          href="mailto:albert@albertcai.org"
+          style={{ color: '#0000FF', textDecoration: 'none' }}
+          >
+            let me know
+        </a>
+        </p>
       </footer>
     </div>
   );
