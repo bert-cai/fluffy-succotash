@@ -14,7 +14,7 @@ export default function ResultPage() {
     const stored = sessionStorage.getItem("argument");
     const url = sessionStorage.getItem("regulationsGovUrl");
     if (!stored || !url) {
-      router.push("/");
+      router.push("/browse");
       return;
     }
     setArgument(JSON.parse(stored) as CommentArgument);
@@ -28,8 +28,8 @@ export default function ResultPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6">
-        <a href="/" className="text-xl font-bold text-dark">
-          Participate
+        <a href="/" className="text-xl font-bold text-dark font-heading">
+          Civly
         </a>
       </header>
 

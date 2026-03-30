@@ -15,7 +15,7 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Participate — Public Comment on Federal Regulations",
+  title: "Civly — Public Comment on Federal Regulations",
   description:
     "Find federal regulations open for public comment and submit substantive comments.",
 };

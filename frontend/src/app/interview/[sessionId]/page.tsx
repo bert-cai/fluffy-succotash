@@ -19,7 +19,7 @@ export default function InterviewPage() {
     const stored = sessionStorage.getItem("firstMessage");
     const id = sessionStorage.getItem("sessionId");
     if (!stored || !id) {
-      router.push("/");
+      router.push("/browse");
       return;
     }
     setSessionId(id);
@@ -69,8 +69,8 @@ export default function InterviewPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-8">
         <header className="mb-6">
-          <a href="/" className="text-xl font-bold text-dark">
-            Participate
+          <a href="/" className="text-xl font-bold text-dark font-heading">
+            Civly
           </a>
         </header>
         <div className="flex flex-col items-center gap-3 py-20">
@@ -88,8 +88,8 @@ export default function InterviewPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6">
-        <a href="/" className="text-xl font-bold text-dark">
-          Participate
+        <a href="/" className="text-xl font-bold text-dark font-heading">
+          Civly
         </a>
       </header>
 

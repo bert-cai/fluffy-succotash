@@ -64,11 +64,11 @@ export default function RuleDetailPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6">
-        <a href="/" className="text-sm text-accent hover:text-accent-hover">
+        <a href="/browse" className="text-sm text-accent hover:text-accent-hover">
           ← Back
         </a>
-        <a href="/" className="mt-2 block text-xl font-bold text-dark">
-          Participate
+        <a href="/" className="mt-2 block text-xl font-bold text-dark font-heading">
+          Civly
         </a>
       </header>
 

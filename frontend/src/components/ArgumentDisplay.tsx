@@ -135,7 +135,7 @@ export function ArgumentDisplay({
 
       {/* Back link */}
       <div className="pt-4 text-center">
-        <a href="/" className="text-sm text-accent hover:text-accent-hover">
+        <a href="/browse" className="text-sm text-accent hover:text-accent-hover">
           ← Start over with a different rule
         </a>
       </div>
