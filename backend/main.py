@@ -42,7 +42,7 @@ app = FastAPI(title="Public Comment Tool API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"(http://localhost:3000|https://.*\.vercel\.app)",
+    allow_origin_regex=r"(http://localhost:3000|https://.*\.vercel\.app|https://(www\.)?civly\.xyz)",
     allow_methods=["*"],
     allow_headers=["*"],
 )
