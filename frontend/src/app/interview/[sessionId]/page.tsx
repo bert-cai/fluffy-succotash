@@ -14,6 +14,7 @@ export default function InterviewPage() {
   const [isBuilding, setIsBuilding] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [failedMessage, setFailedMessage] = useState<string | null>(null);
+  const [interviewDone, setInterviewDone] = useState(false);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("firstMessage");
@@ -25,6 +26,22 @@ export default function InterviewPage() {
     setSessionId(id);
     setMessages([stored]);
   }, [router]);
+
+  const fetchArgumentAndNavigate = useCallback(async () => {
+    if (!sessionId) return;
+    setIsBuilding(true);
+    setError(null);
+    try {
+      const argument = await getArgument(sessionId);
+      const regUrl = sessionStorage.getItem("regulationsGovUrl") ?? "";
+      sessionStorage.setItem("argument", JSON.stringify(argument));
+      sessionStorage.setItem("regulationsGovUrl", regUrl);
+      router.push(`/interview/${encodeURIComponent(sessionId)}/result`);
+    } catch (e) {
+      setIsBuilding(false);
+      setError(e instanceof Error ? e.message : "Failed to build argument");
+    }
+  }, [sessionId, router]);
 
   const handleSubmit = useCallback(
     async (userMessage: string) => {
@@ -38,12 +55,8 @@ export default function InterviewPage() {
         setStepNumber((n) => n + 1);
 
         if (resp.is_complete) {
-          setIsBuilding(true);
-          const argument = await getArgument(sessionId);
-          const regUrl = sessionStorage.getItem("regulationsGovUrl") ?? "";
-          sessionStorage.setItem("argument", JSON.stringify(argument));
-          sessionStorage.setItem("regulationsGovUrl", regUrl);
-          router.push(`/interview/${encodeURIComponent(sessionId)}/result`);
+          setInterviewDone(true);
+          await fetchArgumentAndNavigate();
         }
       } catch (e) {
         setError(e instanceof Error ? e.message : "Something went wrong");
@@ -52,14 +65,17 @@ export default function InterviewPage() {
         setIsLoading(false);
       }
     },
-    [sessionId, router],
+    [sessionId, router, fetchArgumentAndNavigate],
   );
 
   const handleRetry = useCallback(() => {
-    if (failedMessage) {
+    if (interviewDone) {
+      // Interview already completed — only retry the argument fetch
+      fetchArgumentAndNavigate();
+    } else if (failedMessage) {
       handleSubmit(failedMessage);
     }
-  }, [failedMessage, handleSubmit]);
+  }, [interviewDone, failedMessage, handleSubmit, fetchArgumentAndNavigate]);
 
   if (!sessionId || messages.length === 0) {
     return null;
