@@ -1,6 +1,6 @@
 import logging
 import time
-from datetime import datetime, date, timezone
+from datetime import datetime, date
 from typing import Optional, List
 
 import requests

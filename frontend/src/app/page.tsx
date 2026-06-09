@@ -1,13 +1,14 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
     <div className="bg-light">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4">
-        <a href="/" className="font-heading font-semibold text-dark">
+        <Link href="/" className="font-heading font-semibold text-dark">
           Civly
-        </a>
+        </Link>
       </nav>
 
       {/* Hero */}
@@ -20,12 +21,12 @@ export default function LandingPage() {
           but the process is dominanted by powerful corporate lobbyists. We
           cut through the sludge. Make your voice heard today, completely free.
         </p>
-        <a
+        <Link
           href="/browse"
           className="mt-10 inline-block rounded-lg bg-accent px-8 py-4 font-heading text-lg font-semibold text-light transition-opacity hover:opacity-90"
         >
           Try it now →
-        </a>
+        </Link>
 
         {/* Decorative accent bar */}
         <div className="mx-auto mt-12 h-1 w-24 rounded-full bg-accent" />

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getRules } from "@/lib/api";
 import { RuleBrowser } from "@/components/RuleBrowser";
 import type { Rule } from "@/types";
@@ -18,7 +19,7 @@ export default async function BrowsePage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6 border-b border-subtle pb-6">
-        <a href="/" className="text-2xl font-bold text-dark font-heading">Civly</a>
+        <Link href="/" className="text-2xl font-bold text-dark font-heading">Civly</Link>
         <p className="mt-2 text-sm text-mid">
           Federal regulations open for public comment right now. Your input is
           legally required to be considered.

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { getRule, analyzeRule, startInterview } from "@/lib/api";
 import { DeadlineBadge } from "@/components/DeadlineBadge";
 import type { RuleDetail, AnalysisResult } from "@/types";
@@ -22,7 +23,6 @@ export default function RuleDetailPage() {
 
   const [rule, setRule] = useState<RuleDetail | null>(null);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
-  const [loading, setLoading] = useState(true);
   const [analysisLoading, setAnalysisLoading] = useState(true);
   const [startingInterview, setStartingInterview] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,8 +33,7 @@ export default function RuleDetailPage() {
     let cancelled = false;
     getRule(documentId)
       .then((data) => { if (!cancelled) setRule(data); })
-      .catch((e) => { if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load rule"); })
-      .finally(() => { if (!cancelled) setLoading(false); });
+      .catch((e) => { if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load rule"); });
     return () => { cancelled = true; };
   }, [documentId]);
 
@@ -65,12 +64,12 @@ export default function RuleDetailPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6">
-        <a href="/browse" className="text-sm text-accent hover:text-accent-hover">
+        <Link href="/browse" className="text-sm text-accent hover:text-accent-hover">
           ← Back
-        </a>
-        <a href="/" className="mt-2 block text-xl font-bold text-dark font-heading">
+        </Link>
+        <Link href="/" className="mt-2 block text-xl font-bold text-dark font-heading">
           Civly
-        </a>
+        </Link>
       </header>
 
       {/* Always show title immediately */}
