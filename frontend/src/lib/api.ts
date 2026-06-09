@@ -52,13 +52,19 @@ async function request<T>(
   }
 }
 
-export function getRules(agencyIds?: string[]): Promise<Rule[]> {
+export function getRules(
+  agencyIds?: string[],
+  timeoutMs?: number,
+): Promise<Rule[]> {
   const params = new URLSearchParams();
   if (agencyIds?.length) {
     params.set("agency_ids", agencyIds.join(","));
   }
   const qs = params.toString();
-  return request<Rule[]>(`/rules${qs ? `?${qs}` : ""}`);
+  return request<Rule[]>(
+    `/rules${qs ? `?${qs}` : ""}`,
+    timeoutMs ? { timeoutMs } : undefined,
+  );
 }
 
 export function getRule(documentId: string): Promise<RuleDetail> {
