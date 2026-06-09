@@ -4,9 +4,7 @@ Tests for Phase 2 — LLM Synthesis Layer.
 Requires both REGULATIONS_GOV_API_KEY and ANTHROPIC_API_KEY in .env.
 """
 import os
-import sys
 import unittest
-import json
 import textwrap
 
 from pathlib import Path
@@ -186,14 +184,14 @@ class TestCachingEfficiency(unittest.TestCase):
         print(f"{'─'*60}")
 
         _, usage1 = summarize_rule(rule)
-        print(f"  Call 1 (summarize_rule):")
+        print("  Call 1 (summarize_rule):")
         print(f"    input_tokens: {usage1['input_tokens']}")
         print(f"    output_tokens: {usage1['output_tokens']}")
         print(f"    cache_creation_input_tokens: {usage1['cache_creation_input_tokens']}")
         print(f"    cache_read_input_tokens: {usage1['cache_read_input_tokens']}")
 
         _, usage2 = extract_ria_assumptions(rule)
-        print(f"  Call 2 (extract_ria_assumptions):")
+        print("  Call 2 (extract_ria_assumptions):")
         print(f"    input_tokens: {usage2['input_tokens']}")
         print(f"    output_tokens: {usage2['output_tokens']}")
         print(f"    cache_creation_input_tokens: {usage2['cache_creation_input_tokens']}")

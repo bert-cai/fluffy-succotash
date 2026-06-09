@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { respondToInterview, getArgument } from "@/lib/api";
 import { InterviewStep } from "@/components/InterviewStep";
 
@@ -65,7 +66,7 @@ export default function InterviewPage() {
         setIsLoading(false);
       }
     },
-    [sessionId, router, fetchArgumentAndNavigate],
+    [sessionId, fetchArgumentAndNavigate],
   );
 
   const handleRetry = useCallback(() => {
@@ -85,9 +86,9 @@ export default function InterviewPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-8">
         <header className="mb-6">
-          <a href="/" className="text-xl font-bold text-dark font-heading">
+          <Link href="/" className="text-xl font-bold text-dark font-heading">
             Civly
-          </a>
+          </Link>
         </header>
         <div className="flex flex-col items-center gap-3 py-20">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
@@ -104,9 +105,9 @@ export default function InterviewPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
       <header className="mb-6">
-        <a href="/" className="text-xl font-bold text-dark font-heading">
+        <Link href="/" className="text-xl font-bold text-dark font-heading">
           Civly
-        </a>
+        </Link>
       </header>
 
       <InterviewStep

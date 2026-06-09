@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ClosingSoon } from "@/components/ClosingSoon";
 
 export default function LandingPage() {
   return (
@@ -8,12 +8,6 @@ export default function LandingPage() {
       <nav className="flex items-center justify-between px-6 py-4">
         <Link href="/" className="font-heading font-semibold text-dark">
           Civly
-        </Link>
-        <Link
-          href="/browse"
-          className="font-heading text-sm font-medium text-dark transition-colors hover:text-accent"
-        >
-          Browse open rules →
         </Link>
       </nav>
 
@@ -33,6 +27,9 @@ export default function LandingPage() {
         >
           Try it now →
         </Link>
+
+        {/* Decorative accent bar */}
+        <div className="mx-auto mt-12 h-1 w-24 rounded-full bg-accent" />
       </div>
 
       {/* Live closing-soon comment periods; falls back to the product screenshot */}

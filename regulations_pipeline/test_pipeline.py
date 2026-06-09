@@ -1,7 +1,7 @@
 import os
 import tempfile
 import unittest
-from datetime import datetime, date, timezone
+from datetime import datetime, timezone
 
 from dotenv import load_dotenv
 load_dotenv()
